@@ -10,10 +10,25 @@
   <script type="application/x-javascript" src="chrome://wikifytabs/content/wikifytabs.js"></script>
 
   <menupopup id="menu_ToolsPopup">
-    <menuitem id="menu_wikifytabs"
-              label="WikifyTabs"
-              oncommand="writeTabsInText();"
-              class="menu-iconic-wide"/>
+    <menu id="menu_WikifyTabs"
+          label="WikifyTabs">
+      <menupopup id="menupopup_WikifyTabs">
+        <menuitem id="menu_wikifytabs"
+                  label="Wikify"
+                  oncommand="writeTabsInText();"
+                  class="menu-iconic-wide"/>
+        <menuitem id="menu_bbifytabs"
+                  label="BBify"
+                  oncommand="writeBBCodeTabsInText();"
+                  class="menu-iconic-wide"
+                  disabled="true"/>
+        <menuitem id="menu_htmlifytabs"
+                  label="HTMLify"
+                  oncommand="writeHTMLTabsInText();"
+                  class="menu-iconic-wide"
+                disabled="true"/>
+      </menupopup>
+    </menu>
   </menupopup>
     
 </overlay>
