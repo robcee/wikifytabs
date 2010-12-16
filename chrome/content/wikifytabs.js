@@ -38,7 +38,7 @@ function getTabUris() {
 }
 
 function onTabOpen() {
-  gBrowser.selectedBrowser.removeEventListener("load", onTabOpen, false);
+  // gBrowser.selectedBrowser.removeEventListener("load", onTabOpen, false);
   let tabList = getTabUris();
   let textContent = new String(html);
   let tabText = new String();
@@ -58,5 +58,5 @@ function writeTabsInText() {
   gBrowser.selectedTab = newTab;
   // gBrowser.focus();
   let newBrowser = gBrowser.getBrowserForTab(newTab);
-  newBrowser.addEventListener("load", onTabOpen, false);
+  onTabOpen();
 }
