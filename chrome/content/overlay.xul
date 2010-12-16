@@ -20,13 +20,11 @@
         <menuitem id="menu_bbifytabs"
                   label="BBify"
                   oncommand="writeBBCodeTabsInText();"
-                  class="menu-iconic-wide"
-                  disabled="true"/>
+                  class="menu-iconic-wide"/>
         <menuitem id="menu_htmlifytabs"
                   label="HTMLify"
                   oncommand="writeHTMLTabsInText();"
-                  class="menu-iconic-wide"
-                disabled="true"/>
+                  class="menu-iconic-wide"/>
       </menupopup>
     </menu>
   </menupopup>

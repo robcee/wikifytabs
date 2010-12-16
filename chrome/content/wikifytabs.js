@@ -10,6 +10,8 @@
 
 var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
 
+var gWikifyMode = 0;
+
 const WIKI = 1;
 const BBCODE = 2;
 const HTML = 3;
@@ -31,7 +33,7 @@ function getTabUris() {
   for (let i = 0; i < browsers.length - 1; ++i) {
     try {
       let bUri = browsers[i].webNavigation.currentURI.spec;
-      let bTitle = browsers[i].contentDocument.title
+      let bTitle = browsers[i].contentDocument.title;
       let uriTitlePair = [bUri, bTitle];
       tabList.push(uriTitlePair);
     } catch (e) { }
@@ -45,8 +47,20 @@ function onTabOpen() {
   let textContent = new String(html);
   let tabText = new String();
 
-  for (let i = 0; i < tabList.length; i++)
-    tabText += "* [" + tabList[i][0] + " " + tabList[i][1] + "]\n";
+  switch(gWikifyMode) {
+    case WIKI:
+      for (let i = 0; i < tabList.length; i++)
+        tabText += "* [" + tabList[i][0] + " " + tabList[i][1] + "]<br/>\n";
+      break;
+    case BBCODE:
+      for (let i = 0; i < tabList.length; i++)
+        tabText += "* [url=" + tabList[i][0] + "]" + tabList[i][1] + "[/url]<br/>\n";
+      break;
+    case HTML:
+      for (let i = 0; i < tabList.length; i++)
+        tabText += "* &lt;a href=\"" + tabList[i][0] + "\"&gt;" + tabList[i][1] + "&lt;a&gt;<br/>\n";
+      break;
+  }
 
   _log("tabText: " + tabText);
 
@@ -58,14 +72,31 @@ function onTabOpen() {
   gBrowser.contentDocument.body.innerHTML = textContent;
 }
 
-function writeTabsInText() {
-  _log("writeTabsInText");
+function createTabAndWrite() {
   gBrowser.selectedTab = gBrowser.addTab();
   gBrowser.selectedBrowser.addEventListener("load", function() {
     gBrowser.selectedBrowser.removeEventListener("load", arguments.callee, true);
     _log("load listener");
     setTimeout(onTabOpen, 5);
   }, true);
+}
+
+function writeHTMLTabsInText() {
+  _log("writeHTMLTabsInText");
+  gWikifyMode = HTML;
+  createTabAndWrite();
+}
+
+function writeBBCodeTabsInText() {
+  _log("writeBBCodeTabsInText");
+  gWikifyMode = BBCODE;
+  createTabAndWrite();
+}
+
+function writeTabsInText() {
+  _log("writeTabsInText");
+  gWikifyMode = WIKI;
+  createTabAndWrite();
 }
 
 function _log(msg) {
