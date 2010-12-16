@@ -16,7 +16,8 @@ const HTML = 3;
 
 var html =
   "<h1 style='font: 24px/26px sans-serif'>Links for Tabs</h1>\n" +
-  "<pre style='border: 2px solid #333; border-radius: 4px; margin: 12px; padding: 8px;'>$2</pre>";
+  "<div style='font: 12px/14px sans-serif; border: 2px solid #333; " +
+  "border-radius: 4px; margin: 12px; padding: 8px; overflow-x: auto;'>$2</div>";
 
 function url(spec) {
   return ios.newURI(spec, null, null);
