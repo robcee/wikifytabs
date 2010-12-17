@@ -26,7 +26,6 @@ function url(spec) {
 }
 
 function getTabUris() {
-  _log("getTabUris");
   let tabList = [];
 
   let browsers = gBrowser.browsers;
@@ -42,7 +41,6 @@ function getTabUris() {
 }
 
 function onTabOpen() {
-  _log("onTabOpen");
   let tabList = getTabUris();
   let textContent = new String(html);
   let tabText = new String();
@@ -62,12 +60,9 @@ function onTabOpen() {
       break;
   }
 
-  _log("tabText: " + tabText);
-
   gBrowser.contentDocument.title = "WikifiedTabs";
 
   textContent = textContent.replace("$2", tabText);
-  _log("textContent: " + textContent);
 
   gBrowser.contentDocument.body.innerHTML = textContent;
 }
@@ -76,29 +71,21 @@ function createTabAndWrite() {
   gBrowser.selectedTab = gBrowser.addTab();
   gBrowser.selectedBrowser.addEventListener("load", function() {
     gBrowser.selectedBrowser.removeEventListener("load", arguments.callee, true);
-    _log("load listener");
-    setTimeout(onTabOpen, 5);
+    onTabOpen();
   }, true);
 }
 
 function writeHTMLTabsInText() {
-  _log("writeHTMLTabsInText");
   gWikifyMode = HTML;
   createTabAndWrite();
 }
 
 function writeBBCodeTabsInText() {
-  _log("writeBBCodeTabsInText");
   gWikifyMode = BBCODE;
   createTabAndWrite();
 }
 
 function writeTabsInText() {
-  _log("writeTabsInText");
   gWikifyMode = WIKI;
   createTabAndWrite();
-}
-
-function _log(msg) {
-  Services.console.logStringMessage("LOG: " + msg);
 }
